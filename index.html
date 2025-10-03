@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Glider Quiz</title> 
+    
+    <link rel="icon" type="image/png" href="logo.png"> 
+    
+    <style>
+        /* ADD CSS for the Logo Image */
+        .logo {
+            display: block;
+            margin: 0 auto 20px auto;
+            max-width: 150px; /* Adjust size as needed */
+            height: auto;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007bff; /* Glider-like blue */
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .question-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            background-color: #fafafa;
+        }
+        .question-card p {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .options label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .options label:hover {
+            background-color: #e9ecef;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #results {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            display: none;
+        }
+        .correct-answer {
+            color: green;
+            font-weight: bold;
+        }
+        .incorrect-answer {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <img src="logo.png" alt="Quiz Logo" class="logo">
+        
+        <h1>The Glider Quiz! 🦇</h1>
+        
+        <form id="quiz-form">
+            
+            <div class="question-card">
+                <p>1. According to the Glider blog, what is the hardest part of investing that the Simple Moving Average (SMA) helps address?</p>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="A"> A) Pressing the buy button.</label>
+                    <label><input type="radio" name="q1" value="B"> B) Calculating current yield.</label>
+                    <label><input type="radio" name="q1" value="C"> C) Diversifying across chains.</label>
+                    <label><input type="radio" name="q1" value="D"> D) Knowing when to hold and when to step aside.</label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <p>20. For a user's allocations to stay aligned with their original strategy, what feature is essential on Glider?</p>
+                <div class="options">
+                    <label><input type="radio" name="q20" value="A"> A) Automatic Rebalancing.</label>
+                    <label><input type="radio" name="q20" value="B"> B) Manual SMA calculation.</label>
+                    <label><input type="radio" name="q20" value="C"> C) Daily logging in.</label>
+                    <label><input type="radio" name="q20" value="D"> D) Using Beta Points.</label>
+                </div>
+            </div>
+
+            <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+        </form>
+
+        <div id="results">
+        </div>
+    </div>
+
+    <script>
+        // Define the correct answers for the quiz
+        const correctAnswers = {
+            q1: 'D', q2: 'C', q3: 'B', q4: 'D', q5: 'C',
+            q6: 'D', q7: 'B', q8: 'B', q9: 'C', q10: 'C',
+            q11: 'C', q12: 'B', q13: 'C', q14: 'B', q15: 'B',
+            q16: 'C', q17: 'B', q18: 'C', q19: 'B', q20: 'A'
+        };
+
+        function submitQuiz() {
+            const form = document.getElementById('quiz-form');
+            const resultsDiv = document.getElementById('results');
+            let score = 0;
+            let resultsHTML = '<h2>Quiz Results:</h2>';
+
+            for (let i = 1; i <= 20; i++) {
+                const qName = 'q' + i;
+                const userAnswer = form.elements[qName].value;
+                const correctAnswer = correctAnswers[qName];
+                const questionCard = form.elements[qName][0].closest('.question-card');
+                
+                questionCard.style.border = '1px solid #ddd';
+
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    questionCard.style.border = '1px solid green';
+                } else {
+                    questionCard.style.border = '1px solid red';
+                    resultsHTML += `<p>Question ${i}: <span class="incorrect-answer">Incorrect</span>. The correct answer was **${correctAnswer}**.</p>`;
+                }
+            }
+
+            const finalScore = `<h2>Final Score: ${score} out of 20 (${(score / 20 * 100).toFixed(0)}%)</h2>`;
+            resultsDiv.innerHTML = finalScore + '<hr>' + resultsHTML;
+            resultsDiv.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
